@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Any
 
 from u2net import U2NET, U2NETP
 import lightning as pl
