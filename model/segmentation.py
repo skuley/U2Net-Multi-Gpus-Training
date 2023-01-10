@@ -1,11 +1,14 @@
 from typing import Dict, Any
 
-from u2net import U2NET, U2NETP
+from model.u2net import U2NET, U2NETP
 import lightning as pl
 import torch
 import torch.nn as nn
+from collections import OrderedDict as OD
+
 
 bce_loss = nn.BCELoss()
+
 
 
 class U2NetPL(pl.LightningModule):
@@ -31,7 +34,7 @@ class U2NetPL(pl.LightningModule):
         image, gt = batch['image'], batch['gt']
         outputs = self.u2net(image)
         loss = self.loss(outputs, gt)
-        self.log(f"{stage}_loss", loss, on_step=True)
+        self.log(f"{stage}_loss", loss, on_epoch=True)
         return loss
 
     def loss(self, outputs, target):
@@ -43,21 +46,21 @@ class U2NetPL(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         loss = self._common_step(batch, batch_idx, "train")
-        self.log_dict({'loss': loss})
+        # self.log_dict({'loss': loss})
         return loss
 
     def validation_step(self, batch, batch_idx):
         loss = self._common_step(batch, batch_idx, "val")
-        self.log_dict({'val_loss': loss})
+        # self.log_dict({'val_loss': loss})
         return loss
 
     def on_save_checkpoint(self, checkpoint: Dict[str, Any]) -> None:
         state_dict = checkpoint['state_dict']
-        key_word = 'u2net'
+        key_word = 'u2net.'
         new_sd = OD()
         for key, value in state_dict.items():
             if key_word in key:
-                key = key.replace(key_word)
+                key = key.replace(key_word, '')
             new_sd[key] = value
         checkpoint['state_dict'] = new_sd
 
