@@ -49,6 +49,16 @@ class U2NetPL(pl.LightningModule):
         self.log_dict({'val_loss': loss})
         return loss
 
+    def on_save_checkpoint(self, checkpoint: Dict[str, Any]) -> None:
+        state_dict = checkpoint['state_dict']
+        key_word = 'u2net'
+        new_sd = OD()
+        for key, value in state_dict.items():
+            if key_word in key:
+                key = key.replace(key_word)
+            new_sd[key] = value
+        checkpoint['state_dict'] = new_sd
+
 
 if __name__ == '__main__':
     u2net = U2NetPL()
