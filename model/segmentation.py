@@ -1,3 +1,5 @@
+from typing import Dict
+
 from u2net import U2NET, U2NETP
 import lightning as pl
 import torch
