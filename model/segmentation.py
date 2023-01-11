@@ -1,8 +1,7 @@
 from typing import Dict, Any
 
 from model.u2net import U2NET, U2NETP
-# import lightning as pl
-import pytorch_lightning as pl
+import lightning as pl
 import torch
 import torch.nn as nn
 from collections import OrderedDict as OD
@@ -22,7 +21,9 @@ class U2NetPL(pl.LightningModule):
         if pretrained:
             state_dict = torch.load(pretrained, map_location='cpu')
             self.u2net.load_state_dict(state_dict)
+            print('----------------------------------------------------------------------------------------------------')
             print('pretrained loaded')
+            print('----------------------------------------------------------------------------------------------------')
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.u2net.parameters(), lr=self.lr, betas=(0.9, 0.999), eps=self.epsilon, weight_decay=0)
