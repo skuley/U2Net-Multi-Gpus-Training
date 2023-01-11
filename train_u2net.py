@@ -1,14 +1,14 @@
 import os
 import os.path as osp
 import torch
-import lightning as pl
+import pytorch_lightning as pl
 from utils.dataset import Dataset
 from torch.utils.data import DataLoader
 from torchvision.transforms import transforms as T
 import albumentations as A
 
-from lightning.pytorch.loggers import WandbLogger
-from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint
+from pytorch_lightning.loggers import WandbLogger
+from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 
 from model.segmentation import U2NetPL
 import argparse
@@ -46,8 +46,7 @@ def load_model(args):
     wandb_logger = WandbLogger(name='DUTS Dataset',project='U2-Net')
     trainer = pl.Trainer(logger=wandb_logger,
              callbacks=[checkpoint_callback, early_stop_callback],
-#              devices=torch.cuda.device_count(), strategy='ddp',
-             devices=[1,2], strategy='ddp',
+             devices=torch.cuda.device_count(), strategy='ddp',
              accelerator='gpu',
              min_epochs=args.min_epoch,
              max_epochs=args.max_epoch,
@@ -59,7 +58,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='U2-Net Training')
     parser.add_argument('--min_epoch',         type=int,      default=100)
     parser.add_argument('--max_epoch',         type=int,      default=200)
-    parser.add_argument('--batch_size',        type=int,      default=64)
+    parser.add_argument('--batch_size',        type=int,      default=32)
     parser.add_argument('--lr',                type=float,    default=0.0001)
     parser.add_argument('--epsilon',           type=float,    default=1e-08)
     parser.add_argument('--tr_im_path',        type=str,      default='')
