@@ -28,17 +28,25 @@ pip install -r requirements.txt
 
 1. arguments
 
-|short|long|eng_explanation|kor_explanation|default|type|
-|-----|----|---------------|---------------|-------|----|
-|-root|--data-root|data root directory|학습데이터경로|None|string|
-|-data_json_path|--data_json_path|splitted data json path|train/val split된 txt파일|None|string|
-|-bs|--batch_size|batch size|배치 사이즈|64|integer|
-|-sp|--save_model_path|Path to save trained models|가중치 저장 경로|saved_models|string|
-|-mn|--model_name|Model name|모델명|resnet50|string|
-|-ne|--min_epochs|minimum epochs|최소 에포크|100|integer|
-|-xe|--max_epochs|maximum epochs|최대 에포크|200|integer|
-|-gn|--gpu_num|gpu index number|gpu 인덱스번호|1|integer|
-|-so|--shuffle|shuffle option|데이터로더 순서 섞기|True|boolean|
-|-nw|--num_workers|number of workers|데이터로더 연산코어 갯수|8|integer|
-|-pf|--profiler|profiler type|프로파일러 타입|simple|string|
-|-al|--accelerator|Supports passing different accelerator types (cpu,gpu,tpu,ipu,auto)|연산 하드웨어 종류|gpu|string|
+|keyword|type|
+|-------|----|
+|--min_epoch|int|
+|--maxepoch|int|
+|--batch_size|int|
+|--lr|float|
+|--epsilon|float|
+|--tr_im_path|string|
+|--tr_gt_path|string|
+|--vd_im_path|string|
+|--vd_gt_path|string|
+|--pretrained_path|string|
+|--save_weight_path|string|
+
+2. Script<br>
+** I made it easier to change arguments by changing in python script 
+
+```sh
+python train_u2net.py
+```
+
+
