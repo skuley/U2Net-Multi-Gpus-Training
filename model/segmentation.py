@@ -1,4 +1,4 @@
-from u2net import U2NET, U2NETP
+from model.u2net import U2NET, U2NETP
 import lightning as pl
 import torch
 import torch.nn as nn
