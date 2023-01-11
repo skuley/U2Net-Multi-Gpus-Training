@@ -20,6 +20,9 @@ class Dataset(Dataset):
 
         self.images = sorted(glob(osp.join(im_root, '*.jpg')))
         self.gts = sorted(glob(osp.join(gt_root, '*.png')))
+        
+        print(f'images : {len(self.images)}')
+        print(f'gts : {len(self.gts)}')
 
         self.transform = transform
 
