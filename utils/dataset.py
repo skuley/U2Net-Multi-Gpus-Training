@@ -4,6 +4,7 @@ import os.path as osp
 from torch.utils.data import Dataset
 from glob import glob
 import cv2
+import numpy as np
 from torchvision.transforms import transforms as T
 from tqdm import tqdm
 
@@ -29,15 +30,17 @@ class Dataset(Dataset):
         image, gt = Image.open(image), Image.open(gt)
         if self.transform:
             gt = ImageOps.grayscale(gt)
-            image = self.transform(image)
-            gt = self.transform(gt)
+            image, gt = np.array(image), np.array(gt)
+            sample = self.transform(image=image, mask=gt)
+            image, gt = sample['image'], sample['mask']
         
         tn_image = T.ToTensor()(image)
         tn_gt = T.ToTensor()(gt)
         return tn_image, tn_gt
+#         return image, gt
 
     def __getitem__(self, item):
         image = self.images[item]
-        gt = self.images[item]
+        gt = self.gts[item]
         image, gt = self._transform(image, gt)
         return {'image': image, 'gt': gt}
