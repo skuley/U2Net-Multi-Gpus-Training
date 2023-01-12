@@ -43,8 +43,8 @@ def load_model(args):
         mode="min"
     )
     
-    wandb_logger = WandbLogger(name='DUTS Dataset',project='U2-Net')
-    trainer = pl.Trainer(logger=wandb_logger,
+    # wandb_logger = WandbLogger(name='DUTS Dataset',project='U2-Net')
+    trainer = pl.Trainer(# logger=wandb_logger,
              callbacks=[checkpoint_callback, early_stop_callback],
              devices=torch.cuda.device_count(), strategy='ddp',
              accelerator='gpu',
