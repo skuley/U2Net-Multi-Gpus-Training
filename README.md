@@ -31,7 +31,7 @@ pip install -r requirements.txt
 |keyword|type|
 |-------|----|
 |--min_epoch|int|
-|--maxepoch|int|
+|--max_epoch|int|
 |--batch_size|int|
 |--lr|float|
 |--epsilon|float|
