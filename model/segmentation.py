@@ -1,3 +1,4 @@
+import os
 from typing import Dict, Any
 
 from model.u2net import U2NET, U2NETP
@@ -57,20 +58,20 @@ class U2NetPL(pl.LightningModule):
         self.val_loss = loss
         return loss
 
-    def on_save_checkpoint(self, checkpoint: Dict[str, Any]) -> None:
-        state_dict = checkpoint['state_dict']
-        epoch = checkpoint['epoch']
-        PATH = f'epoch={epoch}-val_loss={self.val_loss}-batch_size={self.batch_size}.pth'
+#     def on_save_checkpoint(self, checkpoint: Dict[str, Any]) -> None:
+#         state_dict = checkpoint['state_dict']
+#         epoch = checkpoint['epoch']
+#         PATH = f'saved_model/epoch={str(epoch).zfill(2)}-val_loss={self.val_loss:.2f}-batch_size={self.batch_size}.pth'
         
-        key_word = 'u2net.'
-        new_sd = OD()
-        for key, value in state_dict.items():
-            if key_word in key:
-                key = key.replace(key_word, '')
-            new_sd[key] = value
+#         key_word = 'u2net.'
+#         new_sd = OD()
+#         for key, value in state_dict.items():
+#             if key_word in key:
+#                 key = key.replace(key_word, '')
+#             new_sd[key] = value
         
         # save .pth file seperately
-        torch.save(new_sd, PATH)
+#         torch.save(new_sd, PATH)
 
 
 if __name__ == '__main__':

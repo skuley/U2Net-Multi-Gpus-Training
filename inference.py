@@ -1,4 +1,5 @@
 import os
+from collections import OrderedDict as OD
 from model.u2net import U2NET
 
 import torch
@@ -25,15 +26,26 @@ def img2tensor(img_path, img_size):
     tn_img = transform(pil_image).unsqueeze(0)
     return tn_img, pil_image.size
 
+def load_model(model_weight):
+    state_dict = torch.load(model_weight, map_location='cpu')['state_dict']
+    sd = OD()
+    
+    for key, value in state_dict.items():
+        key = key.replace('u2net.', '')
+        sd[key] = value
+    
+    model = U2NET(3,1)
+    model.load_state_dict(sd)
+    print('model loaded succesfully!')
+    
+    return model
+
 def inference(model_weight, device):
-    state_dict = torch.load(model_weight, map_location='cpu')
-    u2net = U2NET(3,1)
-    u2net.load_state_dict(state_dict)
+    u2net = load_model(model_weight)
     device_id = device
     device = f'cuda:{str(device)}'
     u2net = u2net.to(device)
     u2net.eval()
-    
     with torch.no_grad():
         output = u2net(tn_img.to(device))
     pred = output[0]    
