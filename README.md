@@ -5,6 +5,11 @@ This is for researchers who are supported with multi-gpus!
 
 ** For this particular process you will need [pytorch lightning](https://www.pytorchlightning.ai)
 
+## UPDATES!
+- I will be sharing pretrained weights:<br>
+checkpoints : [u2net.ckpt](https://drive.google.com/file/d/1ikI0fP2LDij6OVCiv-e3EZdlVqbEC8HQ/view?usp=sharing)<br> state_dict: [u2net.pth](https://drive.google.com/file/d/1soMzlTkKH2pl6-ZkmZRwA18OnxAzFIEK/view?usp=sharing)
+- I have updated ```inference.py``` code to test u2net<br>
+
 ## Required Libraries
 Python 3.8<br>
 Pytorch 1.12.0+cu102<br>
