@@ -13,10 +13,11 @@ bce_loss = nn.BCELoss()
 
 
 class U2NetPL(pl.LightningModule):
-    def __init__(self, pretrained: str = None, lr: float = 0.001, epsilon: float = 1e-08) -> object:
+    def __init__(self, pretrained: str = None, lr: float = 0.001, epsilon: float = 1e-08, batch_size: int = 8) -> object:
         super(U2NetPL, self).__init__()
         self.lr = lr
         self.epsilon = epsilon
+        self.batch_size = batch_size
 
         self.u2net = U2NET(3,1)
         if pretrained:
@@ -49,23 +50,27 @@ class U2NetPL(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         loss = self._common_step(batch, batch_idx, "train")
-        # self.log_dict({'loss': loss})
         return loss
 
     def validation_step(self, batch, batch_idx):
         loss = self._common_step(batch, batch_idx, "val")
-        # self.log_dict({'val_loss': loss})
+        self.val_loss = loss
         return loss
 
     def on_save_checkpoint(self, checkpoint: Dict[str, Any]) -> None:
         state_dict = checkpoint['state_dict']
+        epoch = checkpoint['epoch']
+        PATH = f'epoch={epoch}-val_loss={self.val_loss}-batch_size={self.batch_size}.pth'
+        
         key_word = 'u2net.'
         new_sd = OD()
         for key, value in state_dict.items():
             if key_word in key:
                 key = key.replace(key_word, '')
             new_sd[key] = value
-        checkpoint['state_dict'] = new_sd
+        
+        # save .pth file seperately
+        torch.save(new_sd, PATH)
 
 
 if __name__ == '__main__':

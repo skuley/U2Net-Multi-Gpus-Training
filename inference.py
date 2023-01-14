@@ -26,7 +26,7 @@ def img2tensor(img_path, img_size):
     return tn_img, pil_image.size
 
 def inference(model_weight, device):
-    state_dict = torch.load(model_weight, map_location='cpu')['state_dict']
+    state_dict = torch.load(model_weight, map_location='cpu')
     u2net = U2NET(3,1)
     u2net.load_state_dict(state_dict)
     device_id = device
