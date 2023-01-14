@@ -1,4 +1,4 @@
-import pytorch_lightning as pl
+import os
 from model.u2net import U2NET
 
 import torch
@@ -8,6 +8,8 @@ from PIL import Image
 import numpy as np
 import cv2
 
+import argparse
+
 def tensor2np(tensor_img, dst_size):
     img_np = np.array(tensor_img.cpu().detach().squeeze(0)*255, np.uint8)
     img_np = img_np.transpose(1,2,0).squeeze()
@@ -15,7 +17,7 @@ def tensor2np(tensor_img, dst_size):
     return img_np
 
 def img2tensor(img_path, img_size):
-    pil_image = Image.open(image)
+    pil_image = Image.open(img_path)
     transform = T.Compose([
         T.Resize((img_size,img_size)),
         T.ToTensor()
@@ -34,6 +36,8 @@ def inference(model_weight, device):
     
     with torch.no_grad():
         output = u2net(tn_img.to(device))
+    pred = output[0]    
+    
     return pred
 
 if __name__ == '__main__':
@@ -41,7 +45,7 @@ if __name__ == '__main__':
     parser.add_argument('--img_path',        type=str,      default='')
     parser.add_argument('--img_size',        type=int,      default=320)
     parser.add_argument('--device',          type=int,      default=0)
-    parser.add_argument('--model_weight',    type=str,      default='saved_model/epoch=02-val_loss=1.84-batch_size=32.ckpt')
+    parser.add_argument('--model_weight',    type=str,      default='saved_model/duts/epoch=02-val_loss=1.84-batch_size=32.ckpt')
     parser.add_argument('--save_path',       type=str,      default='output')
     args = parser.parse_args()
     
