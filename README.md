@@ -6,7 +6,7 @@ This is for researchers who are supported with multi-gpus!
 ** For this particular process you will need [pytorch lightning](https://www.pytorchlightning.ai)
 
 ## UPDATES!
-- Pretrained weights:<br>
+- Pretrained weights (DUTS-TR):<br>
 checkpoints : [u2net.ckpt](https://drive.google.com/file/d/1m4_POtSvbcH0zjpq0yPM6dd6yf71VZzQ/view?usp=sharing)<br> state_dict: [u2net.pth](https://drive.google.com/file/d/1soMzlTkKH2pl6-ZkmZRwA18OnxAzFIEK/view?usp=sharing)
 - I have updated ```inference.py``` code to test u2net<br>
 
